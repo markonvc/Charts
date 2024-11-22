@@ -18,9 +18,6 @@ export const fetchFREDData = async (seriesId: string, timeFrequency: 'daily' | '
         {
             label: seriesId,
             data: aggregatedData.map((obs: any) => parseFloat(obs.value)),
-            fill: false,
-            borderColor: 'rgba(75, 192, 192, 1)',
-            tension: 0.1,
         },
         ], 
     };

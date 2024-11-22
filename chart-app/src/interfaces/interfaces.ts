@@ -5,6 +5,9 @@ export interface Chart {
     chartType: 'line' | 'bar';
     yAxisLabel: string;
     timeFrequency: 'daily' | 'monthly' | 'yearly';
+    lineColor: string,
+    barColor: string,
+    lineStyle: 'solid' | 'dashed',
 }
 
 export interface Observation {

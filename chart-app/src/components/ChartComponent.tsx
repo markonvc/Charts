@@ -6,7 +6,27 @@ import { fetchFREDData } from '../services/chartService';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
 
-const ChartComponent = ({ seriesId, chartType, chartTitle, yAxisLabel, timeFrequency, }: { seriesId: string, chartType: 'line' | 'bar', chartTitle: string, yAxisLabel: string, timeFrequency: 'daily' | 'monthly' | 'yearly' }) => {
+const ChartComponent = ({
+  seriesId,
+  chartType,
+  chartTitle,
+  yAxisLabel,
+  timeFrequency,
+  lineColor = 'rgba(75, 192, 192, 1)',
+  barColor = 'rgba(75, 192, 192, 1)',
+  lineStyle = 'solid',
+  barThickness = 1,
+}: {
+  seriesId: string;
+  chartType: 'line' | 'bar';
+  chartTitle: string;
+  yAxisLabel: string;
+  timeFrequency: 'daily' | 'monthly' | 'yearly';
+  lineColor?: string;
+  barColor?: string;
+  lineStyle?: 'solid' | 'dashed';
+  barThickness?: number;
+}) => {
   const [chartData, setChartData] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   
@@ -28,64 +48,81 @@ const ChartComponent = ({ seriesId, chartType, chartTitle, yAxisLabel, timeFrequ
 
   if (loading) return <div>Loading...</div>;
   if (!chartData) return <div>Error loading chart data</div>;
-  console.log(chartData);
+  console.log(lineColor);
+  
+  
+
+  const lineOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: chartTitle,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: yAxisLabel,
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: `Time Frequency: ${timeFrequency}`,
+        },
+      },
+    },
+    elements: {
+      line: {
+        borderColor: lineColor,
+        borderWidth: 4,
+        borderDash: lineStyle === "dashed" ? [5, 5] : [],
+      },
+    },
+  };
+  console.log(barThickness);
+  
+  const barOptions = {
+    responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: chartTitle,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: yAxisLabel,
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: `Time Frequency: ${timeFrequency}`,
+        },
+      },
+    },
+    elements: {
+      bar: {
+        backgroundColor: barColor,
+        borderColor: barColor,
+        borderWidth: 1,
+        borderRadius: 5,
+      },
+    },
+  };
+
   
   return (
     <div>
       {chartType === 'line' ? (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              title: {
-                display: true,
-                text: chartTitle,
-              },
-            },
-            scales: {
-              y: {
-                title: {
-                  display: true,
-                  text: yAxisLabel,
-                },
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: `Time Frequency: ${timeFrequency}`,
-                },
-              },
-            },
-          }}
-        />
+        <Line data={chartData} options={lineOptions} />
       ) : (
-        <Bar
-          data={chartData}
-          options={{
-            responsive: true,
-            plugins: {
-              title: {
-                display: true,
-                text: chartTitle,
-              },
-            },
-            scales: {
-              y: {
-                title: {
-                  display: true,
-                  text: yAxisLabel,
-                },
-              },
-              x: {
-                title: {
-                  display: true,
-                  text: `Time Frequency: ${timeFrequency}`,
-                },
-              },
-            },
-          }}
-        />
+        <Bar data={chartData} options={barOptions} />
       )}
     </div>
   );

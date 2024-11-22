@@ -1,0 +1,14 @@
+.config-chart-contaier {
+    display: flex;
+    justify-content: space-around;  
+}
+
+.config-container {
+    margin: 20px;
+}
+
+.chart-container {
+    margin: 20px;
+    display: flex;
+    align-items: center;
+}
