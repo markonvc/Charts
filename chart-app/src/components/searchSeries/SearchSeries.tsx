@@ -1,17 +1,18 @@
 import { useState } from "react";
-import { fetchFREDSeries } from "../services/chartService"
+import { fetchFREDSeries } from "../../services/chartService";
+import { useSearchContext } from "../../state/SearchContext";
 
-interface SearchFREDSeriesProps {
-  onSelectSeries: (seriesId: string) => void;
-}
-
-const SearchFREDSeries = ({ onSelectSeries }: SearchFREDSeriesProps) => {
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectQuery, setSelectQuery] = useState("GDP");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
+const SearchFREDSeries = () => {
+  const { 
+      searchQuery, 
+      setSearchQuery, 
+      selectQuery,
+      setSelectQuery, 
+      setSearchResults, 
+      loading, 
+      setLoading 
+      } = useSearchContext();
   const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<typeof setTimeout> | null>(null);
-
   const DEBOUNCE_DELAY = 1000;
 
   const fetchSearchResults = async (query: string) => {
@@ -66,9 +67,6 @@ const SearchFREDSeries = ({ onSelectSeries }: SearchFREDSeriesProps) => {
       setDebounceTimeout(timeoutId);
   };
 
-  console.log(searchResults);
-  
-
   return (
     <div>
       <label>
@@ -84,6 +82,7 @@ const SearchFREDSeries = ({ onSelectSeries }: SearchFREDSeriesProps) => {
       <label>
         Series ID (e.g., GDP, UNRATE):
         <select value={selectQuery} onChange={handleSelect}>
+            <option value="">-</option>
             <option value="GDP">GDP</option>
             <option value="UNRATE">UNRATE</option>
             <option value="CPIAUCSL">CPIAUCSL</option>
@@ -93,23 +92,6 @@ const SearchFREDSeries = ({ onSelectSeries }: SearchFREDSeriesProps) => {
      </label>
     <br />
       {loading && <p>Loading...</p>}
-      {(searchQuery || selectQuery) && searchResults?.length > 0 && (
-        <div>
-          <h3>Search Results</h3>
-          <ul>
-            {searchResults.map((result) => (
-              <li key={result?.id}>
-                <button onClick={() => onSelectSeries(result?.id)}>
-                  {result?.title}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-      {(searchQuery || selectQuery) && searchResults?.length === 0 && !loading && (
-        <p>No results found for "{searchQuery}"</p>
-      )}
     </div>
   );
 };

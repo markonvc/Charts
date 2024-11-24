@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Line, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend } from 'chart.js';
-import { fetchFREDData } from '../services/chartService';
+import { fetchFREDData } from '../../services/chartService';
+import "./ChartComponent.css"
 
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, BarElement, Title, Tooltip, Legend);
@@ -15,7 +16,6 @@ const ChartComponent = ({
   lineColor = 'rgba(75, 192, 192, 1)',
   barColor = 'rgba(75, 192, 192, 1)',
   lineStyle = 'solid',
-  barThickness = 1,
 }: {
   seriesId: string;
   chartType: 'line' | 'bar';
@@ -82,7 +82,6 @@ const ChartComponent = ({
       },
     },
   };
-  console.log(barThickness);
   
   const barOptions = {
     responsive: true,
@@ -118,7 +117,7 @@ const ChartComponent = ({
 
   
   return (
-    <div>
+    <div className='chart'>
       {chartType === 'line' ? (
         <Line data={chartData} options={lineOptions} />
       ) : (

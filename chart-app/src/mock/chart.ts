@@ -7,6 +7,9 @@ const initChart: Chart = {
     chartType: 'line',
     yAxisLabel: 'value',
     timeFrequency: 'monthly',
+    lineColor: '#7c2d2d',
+    barColor: 'rgba(75, 192, 192, 1)',
+    lineStyle: 'solid',
   };
   
   export default initChart;

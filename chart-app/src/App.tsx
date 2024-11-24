@@ -5,7 +5,7 @@ const App = () => {
 
   return (
     <div className='app-container'>
-      <h1>Dynamic Chart Application</h1>
+      <h1 className='app-title'>Dynamic Chart Application</h1>
       <ChartConfig />
     </div>
   );
